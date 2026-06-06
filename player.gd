@@ -1,21 +1,20 @@
 extends CharacterBody2D
 
 # Player movement parameters
-@export var base_speed: float = 100.0
-@export var acceleration: float = 10.0
-@export var jump_force: float = -300.0
-@export var gravity: float = 900.0
-@export var pounce_force: float = -400.0
+@export var base_speed: float = 150.0
+@export var acceleration: float = 20.0
+@export var jump_force: float = -350.0
+@export var gravity: float = 1200.0
+@export var pounce_force: float = -450.0
 
 # Cat behavior
 @onready var cat_sprite = $CatSprite
 @onready var hero_sprite = $HeroSprite
-
-# Network sync
-@export var is_networked: bool = true
+@onready var collision_shape = $CollisionShape2D
 
 # State
 var score: int = 0
+var velocity: Vector2 = Vector2.ZERO
 
 func _ready():
 	# Initialize cat's lazy behavior
@@ -30,10 +29,7 @@ func _physics_process(delta):
 	
 	# Handle movement input
 	var direction = Input.get_axis("left", "right")
-	velocity.x = direction * base_speed
-	
-	# Handle acceleration (optional: uncomment if you want acceleration)
-	# velocity.x += acceleration * direction * delta
+	velocity.x = move_toward(velocity.x, direction * base_speed, acceleration * delta)
 	
 	# Handle jumping
 	if Input.is_action_just_pressed("jump") and is_on_floor():
@@ -43,18 +39,9 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("pounce") and is_on_floor():
 		velocity.y = pounce_force
 	
-	# Handle co-op input (second player)
-	if is_networked:
-		_handle_coop_input()
-	
 	move_and_slide()
 
-func _handle_coop_input():
-	# Placeholder for co-op controls
-	# This would be expanded with actual network input handling
-	pass
-
-func _on_area_2d_body_entered(body):
+func _on_body_entered(body):
 	# Collision with lasagna items or obstacles
 	if body.is_in_group("lasagna"):
 		# Collect lasagna
