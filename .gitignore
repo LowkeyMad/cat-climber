@@ -1,1 +1,6 @@
 .aider*
+
+.godot/
+builds/
+*.uid
+godot_check.log
