@@ -1,4 +1,4 @@
-// error handling added
-if (someCondition) {
-    console.error("Fix needed for headless check");
-}
+ // error handling added
+ if (typeof someCondition !== 'undefined' && someCondition) {
+     console.error("Fix needed for headless check");
+ }
