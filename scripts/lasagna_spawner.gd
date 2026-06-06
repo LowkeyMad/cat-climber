@@ -21,7 +21,7 @@ func _process(delta):
 	spawn_timer += delta
 	
 	# Increase difficulty over time
-	current_spawn_rate = max(min_spawn_rate, spawn_rate - (get_tree().get_elapsed_time() / 60.0))
+	current_spawn_rate = max(min_spawn_rate, spawn_rate - (Time.get_ticks_msec() / 1000.0 / 60.0))
 	
 	if spawn_timer >= current_spawn_rate:
 		spawn_lasagna()

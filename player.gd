@@ -29,7 +29,7 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 	
 	# Handle automatic forward acceleration
-	velocity.x = base_speed + (acceleration * get_tree().get_elapsed_time())
+	velocity.x = base_speed + (acceleration * Time.get_ticks_msec() / 1000.0)
 	
 	# Handle jumping
 	if Input.is_action_just_pressed("jump") and is_on_floor():
