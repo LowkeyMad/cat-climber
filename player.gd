@@ -28,8 +28,12 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	
-	# Handle automatic forward acceleration
-	velocity.x = base_speed + (acceleration * Time.get_ticks_msec() / 1000.0)
+	# Handle movement input
+	var direction = Input.get_axis("left", "right")
+	velocity.x = direction * base_speed
+	
+	# Handle acceleration (optional: uncomment if you want acceleration)
+	# velocity.x += acceleration * direction * delta
 	
 	# Handle jumping
 	if Input.is_action_just_pressed("jump") and is_on_floor():
