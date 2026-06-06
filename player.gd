@@ -10,11 +10,9 @@ extends CharacterBody2D
 # Cat behavior
 @onready var cat_sprite = $CatSprite
 @onready var hero_sprite = $HeroSprite
-@onready var collision_shape = $CollisionShape2D
 
 # State
 var score: int = 0
-var velocity: Vector2 = Vector2.ZERO
 
 func _ready():
 	# Initialize cat's lazy behavior
@@ -40,13 +38,16 @@ func _physics_process(delta):
 		velocity.y = pounce_force
 	
 	move_and_slide()
-
-func _on_body_entered(body):
-	# Collision with lasagna items or obstacles
-	if body.is_in_group("lasagna"):
-		# Collect lasagna
-		score += body.points
-		body.queue_free()
-	elif body.is_in_group("obstacles"):
-		# Game over logic
-		get_tree().change_scene_to_file("res://scenes/game_over.tscn")
+	
+	# Check for collisions after moving
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		if collider and collider.is_in_group("lasagna"):
+			# Collect lasagna
+			score += collider.points
+			collider.queue_free()
+		elif collider and collider.is_in_group("obstacles"):
+			# Game over logic
+			get_tree().change_scene_to_file("res://scenes/game_over.tscn")
