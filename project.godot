@@ -25,3 +25,19 @@ pounce={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"physical_keycode":4194320)]
 }
+
+left={
+"deadzone": 0.5,
+"events": [
+Object(InputEventKey,"physical_keycode":65),
+Object(InputEventKey,"physical_keycode":4194319)
+]
+}
+
+right={
+"deadzone": 0.5,
+"events": [
+Object(InputEventKey,"physical_keycode":68),
+Object(InputEventKey,"physical_keycode":4194321)
+]
+}
